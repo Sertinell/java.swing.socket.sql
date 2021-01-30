@@ -14,7 +14,9 @@ public abstract class PlayerTest {
 
     protected final Color COLOR = Color.O;
 
-    public abstract PlayerBuilder getPlayerBuilder();
+    public PlayerBuilder getPlayerBuilder(){
+        return new PlayerBuilder();
+    }
 
     @Test
     public void testGivenPlayerWhenAreAllTokensOnBoardThenTrue() {
@@ -156,5 +158,4 @@ public abstract class PlayerTest {
         Player player = this.getPlayerBuilder().build();
         assertThat(player.getColor(), is(Color.O));
     }
-
 }

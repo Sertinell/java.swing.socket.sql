@@ -1,12 +1,12 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.models.UserPlayer;
+import usantatecla.tictactoe.controllers.UserPlayerController;
 import usantatecla.tictactoe.types.Coordinate;
 import usantatecla.tictactoe.types.Error;
 
 class UserPlayerView extends PlayerView {
 
-    UserPlayerView(UserPlayer userPlayer) {
+    UserPlayerView(UserPlayerController userPlayer) {
         super(userPlayer);
     }
 
@@ -43,6 +43,4 @@ class UserPlayerView extends PlayerView {
         new ErrorView().writeln(error);
         return error;
     }
-
-
 }

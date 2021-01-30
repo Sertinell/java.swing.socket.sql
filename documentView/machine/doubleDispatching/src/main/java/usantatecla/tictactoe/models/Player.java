@@ -4,7 +4,7 @@ import usantatecla.tictactoe.types.Color;
 import usantatecla.tictactoe.types.Coordinate;
 import usantatecla.tictactoe.types.Error;
 
-public abstract class Player {
+public class Player {
 
     protected Color color;
     protected Board board;
@@ -18,8 +18,6 @@ public abstract class Player {
         this.board = board;
         this.putTokens = 0;
     }
-
-    public abstract void accept(PlayerVisitor playerVisitor);
 
     public boolean areAllTokensOnBoard() {
         return this.putTokens == Coordinate.DIMENSION;

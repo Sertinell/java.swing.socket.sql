@@ -1,18 +1,19 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.models.Game;
+import usantatecla.tictactoe.controllers.PlayController;
+import usantatecla.tictactoe.controllers.ResumeController;
+import usantatecla.tictactoe.controllers.StartController;
 
-public class View extends WithGameView {
+public class View {
 
     private StartView startView;
     private PlayView playView;
     private ResumeView resumeView;
 
-    public View(Game game) {
-        super(game);
-        this.startView = new StartView(this.game);
-        this.playView = new PlayView(this.game);
-        this.resumeView = new ResumeView(this.game);
+    public View(StartController startController, PlayController playController, ResumeController resumeController){
+        this.startView = new StartView(startController);
+        this.playView = new PlayView(playController);
+        this.resumeView = new ResumeView(resumeController);
     }
 
     public void interact() {

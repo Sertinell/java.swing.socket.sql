@@ -1,33 +1,33 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.models.Game;
-import usantatecla.tictactoe.models.MachinePlayer;
-import usantatecla.tictactoe.models.PlayerVisitor;
-import usantatecla.tictactoe.models.UserPlayer;
+import usantatecla.tictactoe.controllers.MachinePlayerController;
+import usantatecla.tictactoe.controllers.PlayController;
+import usantatecla.tictactoe.controllers.UserPlayerController;
 
-class PlayView extends WithGameView implements PlayerVisitor {
+public class PlayView implements PlayerControllerVisitor {
 
-    PlayView(Game game) {
-        super(game);
+    PlayController playController;
+
+    PlayView(PlayController playController) {
+        this.playController = playController;
     }
 
     void interact() {
         do {
-            this.game.getActivePlayer().accept(this);
-            this.game.next();
-            new BoardView().write(this.game);
-        } while (!this.game.isTicTacToe());
-        Message.PLAYER_WIN.writeln(this.game.getActiveColor().name());
+            playController.getCurrentPlayerController().accept(this);
+            this.playController.next();
+            new BoardView().write(this.playController);
+        } while (!this.playController.isTicTacToe());
+        Message.PLAYER_WIN.writeln(this.playController.getActiveColor().name());
     }
 
     @Override
-    public void visit(UserPlayer userPlayer) {
-        new UserPlayerView(userPlayer).interact();
+    public void visit(UserPlayerController userPlayerController) {
+        new UserPlayerView(userPlayerController).interact();
     }
 
     @Override
-    public void visit(MachinePlayer machinePlayer) {
-        new MachinePlayerView(machinePlayer).interact();
+    public void visit(MachinePlayerController machinePlayerController) {
+        new MachinePlayerView(machinePlayerController).interact();
     }
-    
 }

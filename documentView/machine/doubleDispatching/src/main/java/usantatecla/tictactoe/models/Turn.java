@@ -17,16 +17,13 @@ public class Turn {
     }
 
     void reset() {
+        initPlayers();
         this.activePlayer = 0;
     }
 
-    void setUsers(int numberUsers) {
+    void initPlayers() {
         for (int i = 0; i < Turn.NUMBER_PLAYERS; i++) {
-            if (i < numberUsers) {
-                this.players[i] = new UserPlayer(Color.get(i), this.board);
-            } else {
-                this.players[i] = new MachinePlayer(Color.get(i), this.board);
-            }
+            this.players[i] = new Player(Color.get(i), this.board);
         }
     }
 
@@ -44,4 +41,7 @@ public class Turn {
         return this.getActivePlayer().getColor();
     }
 
+	public int getActivePlayerId() {
+		return activePlayer;
+	}
 }

@@ -8,6 +8,8 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import usantatecla.tictactoe.controllers.GameController;
 import usantatecla.tictactoe.models.Game;
 import usantatecla.tictactoe.types.Color;
 import usantatecla.utils.views.Console;
@@ -46,7 +48,7 @@ public class BoardViewTest {
                     Color.NULL, Color.O, Color.NULL,
                     Color.O, Color.NULL, Color.X
             ).when(this.game).getColor(any());
-            this.boardView.write(this.game);
+            this.boardView.write(new GameController(this.game));
             String string = this.conversor.arrayToString(new String[]{
                     "---------------",
                     " | X |   |   | ",

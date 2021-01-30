@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
 import usantatecla.tictactoe.models.PlayerBuilder;
-import usantatecla.tictactoe.models.UserPlayer;
+import usantatecla.tictactoe.controllers.*;
 import usantatecla.tictactoe.types.Color;
 import usantatecla.utils.views.Console;
 
@@ -21,8 +21,8 @@ public class UserPlayerViewTest extends PlayerViewTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.player = spy(new PlayerBuilder().color(Color.X).user().build());
-        this.playerView = spy(new UserPlayerView((UserPlayer) this.player));
+        this.playerController = new UserPlayerController(new PlayerBuilder().color(Color.X).build());
+        this.playerView = spy(new UserPlayerView((UserPlayerController) this.playerController));
     }
 
     @Test

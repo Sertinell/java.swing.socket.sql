@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import usantatecla.tictactoe.controllers.ResumeController;
 import usantatecla.tictactoe.models.Game;
 import usantatecla.utils.views.Console;
 
@@ -25,7 +27,7 @@ public class ResumeViewTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.resumeView = new ResumeView(new Game());
+        this.resumeView = new ResumeView(new ResumeController(new Game()));
     }
 
     @Test

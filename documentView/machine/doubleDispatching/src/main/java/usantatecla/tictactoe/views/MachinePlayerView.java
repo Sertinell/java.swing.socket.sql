@@ -1,17 +1,18 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.models.MachinePlayer;
+import usantatecla.tictactoe.controllers.*;
 import usantatecla.tictactoe.types.Coordinate;
 
 class MachinePlayerView extends PlayerView {
 
-    MachinePlayerView(MachinePlayer machinePlayer) {
-        super(machinePlayer);
+    MachinePlayerView(MachinePlayerController machinePlayerController) {
+        super(machinePlayerController);
     }
 
     @Override
     protected Coordinate getCoordinate(Message message) {
-        return ((MachinePlayer) this.player).getRandomCoordinate();
-    }
-    
+        Coordinate coordinate = new Coordinate();
+		coordinate.random();
+		return coordinate;
+    }   
 }

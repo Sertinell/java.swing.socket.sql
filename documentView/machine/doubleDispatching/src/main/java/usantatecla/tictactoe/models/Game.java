@@ -7,6 +7,7 @@ public class Game {
 
     private Board board;
     private Turn turn;
+    private int users;
 
     public Game() {
         this.board = new Board();
@@ -22,10 +23,6 @@ public class Game {
         this.turn.next();
     }
 
-    public void setUsers(int numberUsers) {
-        this.turn.setUsers(numberUsers);
-    }
-
     public Color getActiveColor() {
         return this.turn.getActiveColor();
     }
@@ -38,9 +35,25 @@ public class Game {
         return this.board.getColor(coordinate);
     }
 
-    public Player getActivePlayer() {
-        return this.turn.getActivePlayer();
+    public void setUsers(int users){
+        this.users = users;
     }
+
+    public int getUsers() {
+		return users;
+    }
+    
+    public Player getActivePlayer() {
+		return this.turn.getActivePlayer();
+	}
+
+	public int getActivePlayerId() {
+		return this.turn.getActivePlayerId();
+	}
+
+    public int getNumPlayers() {
+		return Turn.NUMBER_PLAYERS;
+	}
 
     @Override
     public boolean equals(Object obj) {
@@ -63,5 +76,4 @@ public class Game {
             return false;
         return true;
     }
-
 }

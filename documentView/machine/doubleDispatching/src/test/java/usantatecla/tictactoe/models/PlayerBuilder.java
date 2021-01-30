@@ -9,7 +9,6 @@ public class PlayerBuilder {
 
     private Color color;
     private String[] rows;
-    private boolean isUser;
     private Player player;
 
     public PlayerBuilder() {
@@ -24,16 +23,6 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder user() {
-        this.isUser = true;
-        return this;
-    }
-
-    public PlayerBuilder machine() {
-        this.isUser = false;
-        return this;
-    }
-
     public PlayerBuilder rows(String... rows) {
         this.rows = rows;
         return this;
@@ -41,11 +30,7 @@ public class PlayerBuilder {
 
     public Player build() {
         Board board = new BoardBuilder().build();
-        if (this.isUser) {
-            this.player = new UserPlayer(this.color, board);
-        } else {
-            this.player = new MachinePlayer(this.color, board);
-        }
+        this.player = new Player(this.color, board);
         this.putTokens();
         return this.player;
     }

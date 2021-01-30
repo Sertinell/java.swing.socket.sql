@@ -1,19 +1,19 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.models.Player;
+import usantatecla.tictactoe.controllers.PlayerController;
 import usantatecla.tictactoe.types.Coordinate;
 import usantatecla.tictactoe.types.Error;
 
 abstract class PlayerView {
 
-    protected Player player;
+    protected PlayerController playerController;
 
-    protected PlayerView(Player player) {
-        this.player = player;
+    protected PlayerView(PlayerController playerController) {
+        this.playerController = playerController;
     }
 
     void interact() {
-        if (!this.player.areAllTokensOnBoard()) {
+        if (!this.playerController.areAllTokensOnBoard()) {
             this.putToken();
         } else {
             this.moveToken();
@@ -27,13 +27,13 @@ abstract class PlayerView {
             coordinate = this.getCoordinate(Message.ENTER_COORDINATE_TO_PUT);
             error = this.getPutTokenError(coordinate);
         } while (!error.isNull());
-        this.player.putToken(coordinate);
+        this.playerController.putToken(coordinate);
     }
 
     protected abstract Coordinate getCoordinate(Message message);
 
     protected Error getPutTokenError(Coordinate coordinate) {
-        return this.player.getPutTokenError(coordinate);
+        return this.playerController.getPutTokenError(coordinate);
     }
 
     private void moveToken() {
@@ -48,14 +48,14 @@ abstract class PlayerView {
             target = this.getCoordinate(Message.COORDINATE_TO_MOVE);
             error = this.getTargetMoveTokenError(origin, target);
         } while (error != Error.NULL);
-        this.player.moveToken(origin, target);
+        this.playerController.moveToken(origin, target);
     }
 
     protected Error getOriginMoveTokenError(Coordinate origin) {
-        return this.player.getOriginMoveTokenError(origin);
+        return this.playerController.getOriginMoveTokenError(origin);
     }
 
     protected Error getTargetMoveTokenError(Coordinate origin, Coordinate target) {
-        return this.player.getTargetMoveTokenError(origin, target);
-    }
+        return this.playerController.getTargetMoveTokenError(origin, target);
+    }    
 }

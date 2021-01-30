@@ -15,7 +15,6 @@ public class TurnTest {
     @BeforeEach
     public void beforeEach() {
         this.turn = new Turn(new Board());
-        this.turn.setUsers(1);
     }
     
     @Test
