@@ -11,7 +11,11 @@ public class GameController {
         this.game = game;
     }
 
-	public Color getColor(Coordinate coordinate) {
-		return game.getColor(coordinate);
-	}
+    public Color getColor(Coordinate coordinate) {
+    return game.getColor(coordinate);
+    }
+    
+    public int getNumPlayers() {
+    return game.getNumPlayers();
+    }
 }

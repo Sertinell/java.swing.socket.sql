@@ -1,23 +1,101 @@
 @startuml tictactoe
-class Game as "usantatecla.\ntictactoe.models.\nGame"
-class View as "usantatecla.\ntictactoe.models.\nView"
+class Game
+class StartController
+class PlayController
+class ResumeController
+abstract class GameController
 
 class  usantatecla.tictactoe.TicTacToe{
   ~ TicTacToe()
   - play()
+  - createControllers()
+  - createViews()
   + main(String[])
 }
-usantatecla.tictactoe.TicTacToe *-down-> Game
-usantatecla.tictactoe.TicTacToe *-down-> View
+usantatecla.tictactoe.TicTacToe *--> Game
+usantatecla.tictactoe.TicTacToe *--> StartView
+usantatecla.tictactoe.TicTacToe *--> PlayView
+usantatecla.tictactoe.TicTacToe *--> ResumeView
+usantatecla.tictactoe.TicTacToe *-up-> StartController
+usantatecla.tictactoe.TicTacToe *-up-> PlayController
+usantatecla.tictactoe.TicTacToe *-up-> ResumeController
+GameController <|-down- StartController
+GameController <|-down- PlayController
+GameController <|-down- ResumeController
+GameController *--> Game
+
+@enduml
+
+@startuml tictactoe.controllers
+
+class Game as "usantatecla.tictactoe.models.\nGame"
+interface IStartView as "usantatecla.tictactoe.views.interfaces.\nIStartView"
+interface IPlayView as "usantatecla.tictactoe.views.interfaaces.\nIPlayView"
+interface IResumeView as "usantatecla.tictactoe.views.interfaaces.\nIResumeView"
+interface IPlayerView as "usantatecla.tictactoe.views.interfaaces.\nIPlayerView"
+
+abstract tictactoe.controllers.GameController {
+  abstract run()
+}
+class tictactoe.controllers.StartController{
+  ~StartController(StarView, Game)
+}
+
+class tictactoe.controllers.PlayController{
+  ~PlayController(PlayView, Game)
+}
+
+class tictactoe.controllers.ResumeController{
+  ~ResumeController(ResumeView, Game)
+}
+
+class tictactoe.controllers.PlayerController{
+  ~PlayerController(PlayerView, Player)
+  run()
+}
+
+tictactoe.controllers.GameController *-left-> Game
+tictactoe.controllers.StartController -left-|> tictactoe.controllers.GameController
+tictactoe.controllers.PlayController -up-|> tictactoe.controllers.GameController
+tictactoe.controllers.ResumeController -up-|> tictactoe.controllers.GameController
+tictactoe.controllers.PlayController ..> tictactoe.controllers.PlayerController
+
+tictactoe.controllers.StartController *-right-> IStartView
+tictactoe.controllers.PlayController *-left-> IPlayView
+tictactoe.controllers.PlayerController *-down-> IPlayerView
+tictactoe.controllers.ResumeController *-right-> IResumeView
+
 @enduml
 
 @startuml tictactoe.views
 class Console as "usantatecla.utils.\nConsole"
 class Coordinate as "usantatecla.\ntictactoe.models.\nCoordinate" 
-class Game as "usantatecla.\ntictactoe.models.\nGame"
 class LimitedIntDialog as "usantatecla.utils.\nLimitedIntDialog"
 class Token as "usantatecla.\ntictactoe.models.\nToken"
 class Error as "usantatecla.\ntictactoe.models.\nError"
+class Player as "usantatecla.\ntictactoe.models.\nPlayer"
+class Game as "usantatecla.\ntictactoe.models.\nGame"
+
+interface usantatecla.tictactoe.views.interfaces.IStartView{
+  +int getNumUsers()
+  +onBoardUpdate(Game)
+}
+
+interface usantatecla.tictactoe.views.interfaces.IPlayView{
+  +IPlayerView getCurrentPlayerView(currentPlayerId, numUsers)
+  +onBoardUpdate(Game)
+}
+
+interface usantatecla.tictactoe.views.interfaces.IPlayerView{
+  +getCoordinate()
+  +onPutTokenError()
+  +onOriginMoveTokenError()
+  +onTargetMoveTokenError()
+}
+
+interface usantatecla.tictactoe.views.interfaces.IResumeView{
+  +bool getResume()
+}
 
 class  usantatecla.tictactoe.views.CoordinateView{
   + read(String): Coordinate
@@ -35,10 +113,10 @@ usantatecla.tictactoe.views.ErrorView *-down-> Error
 Console <..-down- usantatecla.tictactoe.views.ErrorView
 
 class  usantatecla.tictactoe.views.BoardView{
-  ~ BoardView(Game)
-  ~ write()
+  ~ write(Game)
 }
-usantatecla.tictactoe.views.BoardView *-down-> Game
+
+usantatecla.tictactoe.views.BoardView .down.> Game
 usantatecla.tictactoe.views.BoardView .down.> usantatecla.tictactoe.views.Message
 usantatecla.tictactoe.views.BoardView .down.> Coordinate
 usantatecla.tictactoe.views.BoardView .down.> usantatecla.tictactoe.views.TokenView
@@ -66,43 +144,30 @@ enum  usantatecla.tictactoe.views.Message{
 usantatecla.tictactoe.views.Message .down.> Console
 
 class  usantatecla.tictactoe.views.PlayView{
-  ~ PlayView(Game)
-  ~ interact()
-  - put()
-  - move()
 }
-usantatecla.tictactoe.views.WithGameView <|-down- usantatecla.tictactoe.views.PlayView
-usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.TokenView
-usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.Message
-usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.CoordinateView
-usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.ErrorView
-usantatecla.tictactoe.views.PlayView .down.> Game
-usantatecla.tictactoe.views.PlayView .down.> Coordinate
+
+usantatecla.tictactoe.views.PlayView -up-|> usantatecla.tictactoe.views.interfaces.IPlayView
+usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.UserPlayerView
+usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.MachinePlayerView
+usantatecla.tictactoe.views.PlayView .down.> usantatecla.tictactoe.views.BoardView
 
 class  usantatecla.tictactoe.views.ResumeView{
-  ~ ResumeView(Game)
-  ~ interact(): boolean
-
 }
-usantatecla.tictactoe.views.WithGameView <|-down- usantatecla.tictactoe.views.ResumeView
+
 usantatecla.tictactoe.views.ResumeView .down.> usantatecla.tictactoe.views.Message
 usantatecla.tictactoe.views.ResumeView .down.> Game
 
+usantatecla.tictactoe.views.ResumeView -up-|> usantatecla.tictactoe.views.interfaces.IResumeView
+
 class usantatecla.tictactoe.views.StartView{
-  ~ StartView(Game)
-  ~ interact()
 }
-usantatecla.tictactoe.views.WithGameView <|-down- usantatecla.tictactoe.views.StartView
+
 usantatecla.tictactoe.views.StartView .down.> usantatecla.tictactoe.views.BoardView
 usantatecla.tictactoe.views.StartView .down.> usantatecla.tictactoe.views.Message
 usantatecla.tictactoe.views.StartView .down.> Game
 usantatecla.tictactoe.views.StartView .down.> LimitedIntDialog
 
-abstract class usantatecla.tictactoe.views.WithGameView{
-  ~ WithGameView(Game)
-}
-
-usantatecla.tictactoe.views.WithGameView *-down-> Game
+usantatecla.tictactoe.views.StartView -up-|> usantatecla.tictactoe.views.interfaces.IStartView
 
 class usantatecla.tictactoe.views.TokenView{
   - {static} SYMBOLS: char
@@ -112,14 +177,10 @@ class usantatecla.tictactoe.views.TokenView{
 usantatecla.tictactoe.views.TokenView *-down-> Token
 usantatecla.tictactoe.views.TokenView .down.> Console
 
-class  usantatecla.tictactoe.views.View{
-  + View(Game)
-  + interact()
-}
-usantatecla.tictactoe.views.View *-down-> usantatecla.tictactoe.views.StartView
-usantatecla.tictactoe.views.View *-down-> usantatecla.tictactoe.views.PlayView
-usantatecla.tictactoe.views.View *-down-> usantatecla.tictactoe.views.ResumeView
-usantatecla.tictactoe.views.View *-down-> Game
+usantatecla.tictactoe.views.PlayerView --|> usantatecla.tictactoe.views.interfaces.IPlayerView
+usantatecla.tictactoe.views.MachinePlayerView -up-|> usantatecla.tictactoe.views.PlayerView
+usantatecla.tictactoe.views.UserPlayerView -up-|> usantatecla.tictactoe.views.PlayerView
+
 @enduml
 
 @startuml tictactoe.models
@@ -166,16 +227,18 @@ usantatecla.tictactoe.models.Coordinate .down.> ClosedInterval
 
 class  usantatecla.tictactoe.models.Game{
   + Game()
+  + getUsers()
   + setUsers(int)
   + isBoardComplete(): boolean
-  + isUser(): boolean
   + put(Coordinate): Error
   + move(Coordinate, Coordinate): Error
   + next()
   + isusantatecla.TicTacToe(): boolean
   + getToken(Coordinate): Token
+  + getActivePlayer()
+  + getActivePlayerId()
   + getToken(): Token
-  + getMaxPlayers(): int
+  + getNumPlayers(): int
   + reset()
 }
 usantatecla.tictactoe.models.Game *-down-> usantatecla.tictactoe.models.Board
@@ -199,9 +262,7 @@ class  usantatecla.tictactoe.models.Turn{
   - active: int
   - users: int
   ~ Turn(Board)
-  ~ setUsers(int)
   ~ next()
-  ~ isUser(): boolean
   ~ put(Coordinate): Error
   - getPlayer(): Player
   ~ move(Coordinate, Coordinate): Error

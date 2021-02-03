@@ -7,11 +7,11 @@ import usantatecla.utils.models.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
-class Board {
+public class Board {
 
     private Color[][] colors;
 
-    Board() {
+    public Board() {
         this.colors = new Color[Coordinate.DIMENSION][Coordinate.DIMENSION];
         this.reset();
     }

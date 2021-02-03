@@ -38,7 +38,7 @@ public class StartViewTest {
         try (MockedStatic<Console> console = mockStatic(Console.class)) {
             console.when(Console::getInstance).thenReturn(this.console);
             when(this.console.readInt(anyString())).thenReturn(1);
-            this.startView.interact();
+            this.startView.getNumUsers(2);
             verify(this.game).setUsers(1);
             String string = this.conversor.arrayToString(new String[]{
                     "--- TIC TAC TOE ---",

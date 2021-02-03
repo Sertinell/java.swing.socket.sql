@@ -1,21 +1,23 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.controllers.StartController;
+import usantatecla.tictactoe.models.Game;
+import usantatecla.tictactoe.views.interfaces.IStartView;
 import usantatecla.utils.views.BoundedIntDialog;
 
-class StartView {
-
-	StartController startController;
-
-    StartView(StartController startController) {
-		this.startController = startController;
-	}
-
-    void interact() {
+public class StartView implements IStartView {
+	@Override
+	public void onStartGame(Game game) {
 		Message.TITLE.writeln();
-		BoundedIntDialog dialog = new BoundedIntDialog(0, this.startController.getNumPlayers());
-		this.startController.setUsers(dialog.read(Message.NUMBER_PLAYERS.toString()));
-		new BoardView().write(this.startController);
 	}
 
+	@Override
+	public int getNumUsers(int maxUsers) {
+		BoundedIntDialog dialog = new BoundedIntDialog(0, maxUsers);
+		return dialog.read(Message.NUMBER_PLAYERS.toString());
+	}
+
+	@Override
+	public void onBoardUpdate(Game game) {
+		new BoardView().write(game);
+	}
 }

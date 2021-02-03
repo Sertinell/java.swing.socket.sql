@@ -27,7 +27,7 @@ public class ResumeViewTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.resumeView = new ResumeView(new ResumeController(new Game()));
+        this.resumeView = new ResumeView();
     }
 
     @Test
@@ -35,7 +35,7 @@ public class ResumeViewTest {
         try (MockedStatic<Console> console = mockStatic(Console.class)) {
             console.when(Console::getInstance).thenReturn(this.console);
             when(this.console.readString(anyString())).thenReturn("n");
-            assertThat(this.resumeView.interact(), is(false));
+            assertThat(this.resumeView.getResume(), is(false));
         }
     }
 
@@ -44,8 +44,7 @@ public class ResumeViewTest {
         try (MockedStatic<Console> console = mockStatic(Console.class)) {
             console.when(Console::getInstance).thenReturn(this.console);
             when(this.console.readString(anyString())).thenReturn("y");
-            assertThat(this.resumeView.interact(), is(true));
+            assertThat(this.resumeView.getResume(), is(true));
         }
     }
-
 }

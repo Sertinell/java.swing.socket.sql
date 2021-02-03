@@ -1,23 +1,15 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.controllers.ResumeController;
+import usantatecla.tictactoe.views.interfaces.IResumeView;
 import usantatecla.utils.views.YesNoDialog;
 
-class ResumeView {
+public class ResumeView implements IResumeView{
 
-	ResumeController resumeController;
 
-    ResumeView(ResumeController resumeController) {
-		this.resumeController = resumeController;
-	}
-
-	boolean interact() {
+	@Override
+	public boolean getResume() {
 		YesNoDialog isResumed = new YesNoDialog();
 		isResumed.read(Message.RESUME.toString());
-		if (isResumed.isAffirmative()){
-			this.resumeController.reset();
-		}
 		return isResumed.isAffirmative();
 	}
-
 }

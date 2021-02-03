@@ -1,33 +1,27 @@
 package usantatecla.tictactoe.views;
 
-import usantatecla.tictactoe.controllers.MachinePlayerController;
-import usantatecla.tictactoe.controllers.PlayController;
-import usantatecla.tictactoe.controllers.UserPlayerController;
+import usantatecla.tictactoe.models.Game;
+import usantatecla.tictactoe.types.Color;
+import usantatecla.tictactoe.views.interfaces.IPlayView;
+import usantatecla.tictactoe.views.interfaces.IPlayerView;
 
-public class PlayView implements PlayerControllerVisitor {
-
-    PlayController playController;
-
-    PlayView(PlayController playController) {
-        this.playController = playController;
-    }
-
-    void interact() {
-        do {
-            playController.getCurrentPlayerController().accept(this);
-            this.playController.next();
-            new BoardView().write(this.playController);
-        } while (!this.playController.isTicTacToe());
-        Message.PLAYER_WIN.writeln(this.playController.getActiveColor().name());
+public class PlayView implements IPlayView {
+    @Override
+    public void onBoardUpdate(Game game) {
+        new BoardView().write(game);
     }
 
     @Override
-    public void visit(UserPlayerController userPlayerController) {
-        new UserPlayerView(userPlayerController).interact();
+    public IPlayerView getCurrentPlayerView(Game game) {
+        if(game.getActivePlayerId() >= game.getUsers()){
+            return new MachinePlayerView();
+        } else {
+            return new UserPlayerView();
+        }
     }
 
     @Override
-    public void visit(MachinePlayerController machinePlayerController) {
-        new MachinePlayerView(machinePlayerController).interact();
+    public void onPlayerWin(Color color) {
+        Message.PLAYER_WIN.writeln(color.name());
     }
 }
