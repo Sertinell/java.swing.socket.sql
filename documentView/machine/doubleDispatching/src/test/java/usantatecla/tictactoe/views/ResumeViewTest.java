@@ -23,11 +23,11 @@ public class ResumeViewTest {
     @Mock
     private Console console;
 
-    private ResumeView resumeView;
+    private FullView resumeView;
 
     @BeforeEach
     public void beforeEach() {
-        this.resumeView = new ResumeView();
+        this.resumeView = new FullView();
     }
 
     @Test

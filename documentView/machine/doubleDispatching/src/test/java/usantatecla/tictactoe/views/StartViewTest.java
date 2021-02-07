@@ -25,7 +25,7 @@ public class StartViewTest {
     private Game game;
 
     @InjectMocks
-    private StartView startView;
+    private FullView startView;
     private Conversor conversor;
 
     @BeforeEach

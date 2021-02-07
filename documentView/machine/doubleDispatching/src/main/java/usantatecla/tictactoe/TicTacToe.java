@@ -2,6 +2,7 @@ package usantatecla.tictactoe;
 
 import usantatecla.tictactoe.controllers.SessionController;
 import usantatecla.tictactoe.models.Game;
+import usantatecla.tictactoe.views.FullView;
 import usantatecla.tictactoe.views.PlayView;
 import usantatecla.tictactoe.views.ResumeView;
 import usantatecla.tictactoe.views.StartView;
@@ -14,7 +15,8 @@ class TicTacToe {
 
 	TicTacToe() {
 		this.game = new Game();
-		this.sessionController = new SessionController(game, new StartView(), new PlayView(), new ResumeView());
+		FullView view = new FullView();
+		this.sessionController = new SessionController(game, view, view, view);
 	}
 	
 	public static void main(String[] args) {
